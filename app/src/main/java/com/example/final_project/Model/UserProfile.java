@@ -17,7 +17,7 @@ public class UserProfile implements Parcelable {
     private static UserProfile mInstance = null;
 
     private UserProfile(){
-        this.name = "";
+        this.name = "Weiwen Di";
         description = "Edit your description.";
         skillset = new ArrayList<>();
         expset = new ArrayList<>();
