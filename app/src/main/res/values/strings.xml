@@ -1,0 +1,22 @@
+<resources>
+    <string name="preference_key_user_name">com.example.final_project.USER_NAME_PREFERENCE</string>
+    <string name="user_name_key">com.example.final_project.USER_NAME</string>
+
+    <string name="app_name">Esthetiqs</string>
+    <string name="title_home">Home</string>
+    <string name="title_events">Events</string>
+    <string name="title_profile">Profile</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="toolbar_title">Contacts</string>
+    <string name="action_search">Search</string>
+    <string name="search_hint">Type name…</string>
+
+    <string name='event_helper_text'>*Required</string>
+
+    <string-array name="genre_array">
+        <item>Ballet</item>
+        <item>Hip Hop</item>
+        <item>Salsa</item>
+    </string-array>
+</resources>
