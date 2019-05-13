@@ -1,9 +1,7 @@
 package com.example.final_project;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +23,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,6 +49,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     JSONObject obj;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private DatabaseReference mDatabase;
     String js;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +101,8 @@ public class CreateAccountActivity extends AppCompatActivity {
             Toast.makeText(this, "Password should be longer than 6 digits", Toast.LENGTH_SHORT).show();
             return;
         }
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         mAuth.createUserWithEmailAndPassword(eml, pwd)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -123,8 +126,9 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                             }
 
-                            UserProfile userProfile = UserProfile.getInstance();
+                            UserProfile userProfile = UserProfile.getUserInstance();
                             userProfile.setName(first + " " + last);
+                            mDatabase.child("Users").child(eml.replaceAll("[^a-zA-Z0-9]", "_")).push().setValue(userProfile);
                             Intent i = new Intent(CreateAccountActivity.this, LoginActivity.class);
 
                             startActivity(i);

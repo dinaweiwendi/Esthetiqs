@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.Filter;
@@ -62,6 +63,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         public VideoViewHolder(View itemView) {
             super(itemView);
             webview = itemView.findViewById(R.id.videoWebView);
+            webview.getSettings().setJavaScriptEnabled(true);
+            webview.setWebChromeClient(new WebChromeClient() {
+            });
             title = itemView.findViewById(R.id.title);
             delete = itemView.findViewById(R.id.delete);
 
@@ -72,7 +76,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                     videoList.remove(pos);
                     notifyItemRemoved(pos);
                     notifyDataSetChanged();
-                    //TODO: update firebase
                 }
             });
         }

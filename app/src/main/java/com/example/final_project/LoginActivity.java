@@ -2,7 +2,9 @@ package com.example.final_project;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -118,9 +120,11 @@ public class LoginActivity extends AppCompatActivity {
 
         performFileSearch();
 
+        SharedPreferences sharedPref = getSharedPreferences(
+                getString(R.string.preference_key_user_email), Context.MODE_PRIVATE);
+        sharedPref.edit().putString(getString(R.string.user_email_key), eml).commit();
 
         Intent i = new Intent(this, BasicActivity.class);
-        i.putExtra("email", eml);
 
         startActivity(i);
 

@@ -9,8 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.final_project.Model.UserProfile;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class BottomSheetFragment extends BottomSheetDialogFragment {
@@ -35,7 +39,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         button = contentView.findViewById(R.id.button);
         text = contentView.findViewById(R.id.content);
         title = contentView.findViewById(R.id.textView);
-        user = UserProfile.getInstance();
+        user = UserProfile.getUserInstance();
         switch(tag) {
             case "photo":
 
@@ -58,8 +62,6 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
 
-
-
                     //TODO: from last fragment get TAG, add judgement to see which part is changed,  update profile
 
                     String change = text.getText().toString();
@@ -70,15 +72,33 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                             break;
                         case "skill":
 
-                            user.setSkill(change);
+                            user.setSkillset(change);
                             break;
                         case "experience":
                             //TODO: set user's experiment
-                            user.setExp(change);
+                            user.setExpset(change);
                             break;
                         case "video":
+                            String pattern = "^.*((youtu.be\\/)|(v\\/)|(\\/u\\/\\w\\/)|(embed\\/)|(watch\\?))\\??v?=?([^#\\&\\?]*).*";
+                            Pattern r = Pattern.compile(pattern);
+                            // Now create matcher object.
+                            Matcher m = r.matcher(change);
+                            if (m.find()) {
+                                change = m.group(7);
+                                if(change.length() != 11) {
+                                    Toast.makeText(getActivity(), "The URL is invalid. Please try again!", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            }else {
+                                Toast.makeText(getActivity(), "The URL is invalid. Please try again!", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
 
-                            user.setVid(change, "my video");
+                            //"<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/lseL2l-ZWM0\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>"
+                            String head = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/";
+                            String tail = "\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>";
+                            String url = head + change + tail;
+                            user.setVideoset(url, "");
                             break;
 
                     }

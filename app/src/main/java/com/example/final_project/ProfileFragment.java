@@ -1,7 +1,5 @@
 package com.example.final_project;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,7 +10,7 @@ import android.view.ViewGroup;
 
 import android.app.Activity;
 import androidx.fragment.app.FragmentActivity;
-import android.widget.Button;
+
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -89,7 +87,7 @@ public class ProfileFragment extends Fragment {
 
         }
 
-        user = UserProfile.getInstance();
+        user = UserProfile.getUserInstance();
 
         profile_image = view.findViewById(R.id.profile_image);
         profile_name = view.findViewById(R.id.profile_name);
@@ -156,20 +154,17 @@ public class ProfileFragment extends Fragment {
 
 
         skill_recyclerView =  view.findViewById(R.id.skill_recycler);
-        //skill_recyclerView.setHasFixedSize(true);
         skill_recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         skill_adapter = new SkillAdapter(getActivity(), skillList);
         skill_recyclerView.setAdapter(skill_adapter);
 
 
         exp_recyclerView = view.findViewById(R.id.exp_recycler);
-        //exp_recyclerView.setHasFixedSize(true);
         exp_recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         exp_adapter = new ExperienceAdapter(getActivity(), expList);
         exp_recyclerView.setAdapter(exp_adapter);
 
         video_recyclerView = view.findViewById(R.id.video_recycler);
-        //video_recyclerView.setHasFixedSize(true);
         video_recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         video_adapter = new VideoAdapter(getActivity(), videoList);
         video_recyclerView.setAdapter(video_adapter);
