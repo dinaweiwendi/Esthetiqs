@@ -17,6 +17,7 @@ public class BasicActivity extends AppCompatActivity implements BottomNavigation
     private UserProfile user;
     private Fragment fragment;
     BottomNavigationView navigation;
+    private String eml;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,7 @@ public class BasicActivity extends AppCompatActivity implements BottomNavigation
         navigation.setOnNavigationItemSelectedListener(this);
 
         Bundle bundle = getIntent().getExtras();
-
+        eml = getIntent().getStringExtra("email");
 
         if (bundle != null){
             user = bundle.getParcelable("user");
@@ -42,7 +43,12 @@ public class BasicActivity extends AppCompatActivity implements BottomNavigation
             loadFragment(0);
 
         }
-        user = UserProfile.getInstance();
+        if (eml != null) {
+            user = UserProfile.getInstance();
+            //TODO:change the getInstance() to be getInstqnce(eml), then it may can load the user
+        } else {
+            user = UserProfile.getInstance();
+        }
     }
     private boolean loadFragment(Integer num) {
         if(fragment != null) {

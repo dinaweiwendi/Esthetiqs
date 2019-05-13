@@ -46,7 +46,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                 title.setText("Skill");
                 break;
             case "experience":
-                title.setText("Experiment");
+                title.setText("Experience");
                 break;
             case "video":
 

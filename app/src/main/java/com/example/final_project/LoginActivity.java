@@ -120,6 +120,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         Intent i = new Intent(this, BasicActivity.class);
+        i.putExtra("email", eml);
 
         startActivity(i);
 

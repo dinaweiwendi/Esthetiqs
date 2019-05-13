@@ -2,7 +2,17 @@ package com.example.final_project.Model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.lang.ref.Reference;
 import java.util.ArrayList;
 
 public class UserProfile implements Parcelable {
@@ -12,16 +22,32 @@ public class UserProfile implements Parcelable {
     public ArrayList<Skill> skillset;
     public ArrayList<Experience> expset;
     public ArrayList<Video> videoset;
+
+    private static final int PERMISSION_REQUEST_STORAGE = 1000;
+    private static final int READ_REQUEST_CODE = 42;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();;
+
+
     //private Skill skill;
     //private Experience experience;
     private static UserProfile mInstance = null;
-
+    private UserProfile(String login_email){
+        searchUser(login_email);
+        name = mInstance.name;
+        description = mInstance.description;
+        skillset = mInstance.skillset;
+        expset = mInstance.expset;
+        videoset = mInstance.videoset;
+    }
     private UserProfile(){
-        this.name = "Weiwen Di";
-        description = "Edit your description.";
-        skillset = new ArrayList<>();
-        expset = new ArrayList<>();
-        videoset = new ArrayList<>();
+
+            name = "Weiwen Di";
+            description = "Edit your description.";
+            skillset = new ArrayList<>();
+            expset = new ArrayList<>();
+            videoset = new ArrayList<>();
+
     }
 
     protected UserProfile(Parcel in) {
@@ -38,10 +64,24 @@ public class UserProfile implements Parcelable {
 
     }
     public static synchronized UserProfile getInstance() {
+
         if(null == mInstance){
             mInstance = new UserProfile();
         }
         return mInstance;
+    }
+
+    public static synchronized UserProfile getInstance(String login_email) {
+
+        mInstance = new UserProfile(login_email);
+        if (mInstance == null) {
+            Log.d("PostsFeedFragment", "cannot load user");
+            return null;
+        }
+        else{
+            return mInstance;
+        }
+
     }
 
 
@@ -106,4 +146,20 @@ public class UserProfile implements Parcelable {
         dest.writeTypedList(videoset);
 
     }
+    public void searchUser(String login_email) {
+        mDatabase.child("Users").child(login_email.replaceAll("[^a-zA-Z0-9]", "_")).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                UserProfile current_user = dataSnapshot.getValue(UserProfile.class);
+                mInstance = current_user;
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 }

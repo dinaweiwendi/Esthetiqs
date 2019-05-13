@@ -31,7 +31,7 @@ public class AddPostActivity extends AppCompatActivity {
         mDescription = findViewById(R.id.text_description);
         mUrl = findViewById(R.id.text_url);
         confirm = findViewById(R.id.button_confirm);
-        mImage = R.drawable.prof3;
+        mImage = R.drawable.dww;
         username = "Weiwen Di";
         //TODO: get image and user name
 
@@ -39,7 +39,11 @@ public class AddPostActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 description = mDescription.getText().toString();
-                url = mUrl.getText().toString();
+                //"<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/lseL2l-ZWM0\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>"
+                String head = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/";
+                String tail = "\" frameborder=\"0\" allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>";
+                url = head+mUrl.getText().toString()+tail;
+
                 mPost = new Post(description ,mImage, username, url);
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra(PostsFeedFragment.POST_ADDED, mPost);

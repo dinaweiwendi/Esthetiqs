@@ -35,7 +35,7 @@
         app:layout_constraintStart_toStartOf="@id/description"
         app:layout_constraintTop_toBottomOf="@id/description"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:hint="Video Url"
+        android:hint="Video Url（please only input the last segment of sharable link.）"
         app:helperText="@string/event_helper_text"
         app:errorEnabled="true">
 
